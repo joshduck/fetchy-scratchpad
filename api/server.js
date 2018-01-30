@@ -1,42 +1,5 @@
 // @flow
 
-// Server query context
-
-class Query {
-  fetch() {} // Promise<ResultDescriptor>
-  defer() {} // ResultDescriptor
-  waitForDeferred() {} // Promise<*>
-  waitForRequired() {} // Promise<*>
-}
-
-class Runtime {
-  run(request) {}
-}
-
-class Store {
-  insertRecords(data) {}
-  hasRecord(descriptor) {} 
-  getValue(descriptor) {}
-  getError(descriptor) {}
-  getLoading(descriptor) {}
-  set(descriptor)
-  get(descriptor)
-}
-
-class FlushableStore extends Store {
-  flushRecords() {} // Get records that have changed
-}
-
-class LocalResolver {
-  constructor(loaders)
-  resolve(descriptor)
-}
-
-class NetworkResolver {
-  constructor(config)
-  resolve(descriptor)
-}
-
 // Server isomorphic rendering
 import { FlushableStore, Runtime, LocalResolver } from "fetchy/core";
 
