@@ -1,5 +1,5 @@
 // @flow
-import { LoaderParams, RequestReference } from "./types";
+import type { LoaderParams, RequestReference } from "./types";
 
 export default class Query {
   constructor(runtime) {
@@ -8,9 +8,9 @@ export default class Query {
     this._deferred = [];
   }
 
-  require(name: string, params: LoaderParams): Promise<RequestReference> {
+  require(name: string, params: LoaderParams): RequestReference {
     console.log("Query.fetch", name, params);
-    const ref = this._runtime.getReference(name, params, true);
+    const ref = this._runtime.addRequest(name, params);
     this._required.push(ref);
     this._deferred.push(ref);
     return ref;
@@ -18,22 +18,22 @@ export default class Query {
 
   defer(name: string, params: LoaderParams): RequestReference {
     console.log("Query.defer", name, params);
-    const ref = this._runtime.getReference(name, params, false);
+    const ref = this._runtime.addRequest(name, params);
     this._deferred.push(ref);
     return ref;
   }
 
-  waitForRequired() {
+  waitForRequired(): Promise<undefined> {
     console.log("Query.waitForRequired");
     return this._waitFor(this._required);
   }
 
-  waitForDeferred() {
+  waitForDeferred(): Promise<undefined> {
     console.log("Query.waitForDeferred");
     return this._waitFor(this._deferred);
   }
 
-  _waitFor(refs, offset = 0) {
+  _waitFor(refs: Array<RequestReference>, offset = 0): Promise<undefined> {
     console.log("Query.waitFor", refs.slice(offset));
     const length = refs.length;
     return Promise.all(

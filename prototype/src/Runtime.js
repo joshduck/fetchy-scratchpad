@@ -1,34 +1,32 @@
 // @flow
+import type { LoaderParams, RequestReference } from "./types";
 
 import makeKey from "./makeKey";
 
 export default class Runtime {
-  constructor({ resolver, store }) {
+  constructor({ resolver }) {
     this._resolver = resolver;
-    this._store = store;
+    this._records = {};
   }
 
-  getReference(name, params, required) {
+  addRequest(name, params): RequestReference {
     const key = makeKey(name, params);
 
-    if (!this._store[key]) {
-      this._store[key] = {
+    if (!this._records[key]) {
+      this._records[key] = {
         name,
         params,
-        required,
         resolved: false,
         value: null,
         promise: null
       };
     }
 
-    this._store[key].required = this._store[key].required || required;
-
     return { key };
   }
 
-  waitForResult(query, { key }) {
-    const record = this._store[key];
+  waitForResult(query, { key }: RequestReference): Promise<*> {
+    const record = this._records[key];
     console.log("Runtime.waitForResult", record);
     if (!record.promise) {
       console.log("Runtime.waitForResult: Having to resolve", key);
@@ -42,5 +40,9 @@ export default class Runtime {
       );
     }
     return record.promise;
+  }
+
+  getRecords() {
+    return this._records;
   }
 }

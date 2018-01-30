@@ -1,15 +1,13 @@
 import loaders from "./loaders";
 import Layout from "./Layout";
-import { Runtime, Store, Query } from "../src";
+import { Runtime, Query } from "../src";
 
 const resolveFromLoaders = (query, name, params) => {
   return loaders[name].call(null, query, params);
 };
 
-const store = new Store();
 const runtime = new Runtime({
-  resolver: resolveFromLoaders,
-  store: store
+  resolver: resolveFromLoaders
 });
 
 const query = new Query(runtime);
@@ -19,8 +17,9 @@ console.log(result);
 query.waitForDeferred().then(() => {
   console.log("waitForDeferred");
   console.log(query);
-  console.log(store);
+  console.log(runtime.getRecords());
 });
+
 /*
 const store = new Store();
 const query = new Query();
