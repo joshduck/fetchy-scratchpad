@@ -10,8 +10,8 @@ const loaders: { [string]: Loader } = {
     const collection = await getCollection(id);
 
     // Fetch linked items
-    const articles = await Promise.all(
-      collection.items.map(id => query.fetch("article", { id }))
+    const articles = collection.items.map(id =>
+      query.require("article", { id })
     );
 
     return {
@@ -23,10 +23,13 @@ const loaders: { [string]: Loader } = {
   layout: async (query, { url }) => {
     const layout = await getLayout(url);
 
-    // Fetch deferred items
-    const collections = layout.collections.map(item =>
-      query.defer("collection", item)
-    );
+    const collections = layout.collections.map((item, i) => {
+      if (i === 0) {
+        return query.require("collection", item);
+      } else {
+        return query.defer("collection", item);
+      }
+    });
 
     return {
       layout,
