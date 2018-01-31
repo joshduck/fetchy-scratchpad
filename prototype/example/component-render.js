@@ -15,6 +15,11 @@ const runtime = new Runtime({ resolver: resolveFromLoaders });
 const query = new Query(runtime);
 const fragments = Layout.getFragments(query, { url: '/a' });
 
-query.waitForRequired().then(() => {
-  console.log(renderToString(<Layout {...fragments} />));
-});
+query
+  .waitForRequired()
+  .then(() => {
+    console.log(renderToString(<Layout runtime={runtime} {...fragments} />));
+  })
+  .catch(e => {
+    console.error(e);
+  });
