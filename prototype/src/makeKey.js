@@ -1,3 +1,6 @@
 // @flow
 
-export default (name, params) => `key-${name}-${JSON.stringify(params)}`;
+import type { LoaderParams } from './types';
+
+export default (name: string, params: LoaderParams) =>
+  `key-${name}-${JSON.stringify(params)}`;

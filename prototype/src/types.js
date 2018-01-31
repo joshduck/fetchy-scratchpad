@@ -11,7 +11,7 @@ export type RequestReference = {
 };
 
 export type Query = {
-  fetch: any => Promise<RequestReference>,
+  require: any => Promise<RequestReference>,
   defer: any => RequestReference
 };
 

@@ -1,7 +1,7 @@
 // @flow
 
-import { getArticle, getCollection, getLayout } from "./promises";
-import type { Query, Loader, LoaderParams } from "../src/types";
+import { getArticle, getCollection, getLayout } from './promises';
+import type { Query, Loader, LoaderParams } from '../../src/types';
 
 const loaders: { [string]: Loader } = {
   article: (query, { id }) => getArticle(id),
@@ -11,7 +11,7 @@ const loaders: { [string]: Loader } = {
 
     // Fetch linked items
     const articles = collection.items.map(id =>
-      query.require("article", { id })
+      query.require('article', { id })
     );
 
     return {
@@ -25,9 +25,9 @@ const loaders: { [string]: Loader } = {
 
     const collections = layout.collections.map((item, i) => {
       if (i === 0) {
-        return query.require("collection", item);
+        return query.require('collection', item);
       } else {
-        return query.defer("collection", item);
+        return query.defer('collection', item);
       }
     });
 
