@@ -27,6 +27,7 @@ export type ContainerConfig<T> = {
     [string]: (Query, T) => RequestReference
   }
 };
+
 /*
 type A = { id: number };
 const a: A = { id: 1 };

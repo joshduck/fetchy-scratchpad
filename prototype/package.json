@@ -5,8 +5,8 @@
   "license": "None",
   "scripts": {
     "start-server": "babel-node example/server-resolve.js",
-    "start-component": "babel-node example/component-query.js",
-    "start-render": "babel-node example/component-render.js"
+    "start-client-query": "babel-node example/client-query.js",
+    "start-server-render": "babel-node example/server-render.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
